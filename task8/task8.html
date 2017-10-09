@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		#root{
+			height: 200px;
+			width: 100%;
+		}
+		div{
+			background-color: white;
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+			border: solid 1px black;
+			height: 70%;
+			box-sizing: border-box;
+			width: 45%;
+		}
+	</style>
+</head>
+<body>
+	<div id="root"></div>
+	
+	<script type="text/javascript">
+		// get div
+		var root = document.getElementById("root");
+
+		// recursion
+		function bloom(div){
+			// set div.layerCounter
+			// div.layerCounter = div.parentElement.layerCounter + 1
+			// root.layerCounter = 1
+			// if(div.layerCounter < 4)
+			if(!div.parentElement.parentElement.parentElement || (div.parentElement.parentElement.parentElement !== root)){
+				var div1 = document.createElement("div"),
+					div2 = document.createElement("div");
+				div.append(div1);
+				div.append(div2);
+				bloom(div1);
+				bloom(div2);
+			}
+			return;
+		}
+
+		bloom(root);
+
+		// set callback
+		// function shiningChain(div){
+		// 	div.style.backgroundColor = "blue";
+
+		// 	setTimeout(function(){
+		// 		div.style.backgroundColor = "white";
+		// 		var branches = div.childNodes;
+		// 		shiningChain(branches[0]);
+		// 		setTimeout(function(){
+		// 			shiningChain(branches[1]);
+		// 		} , 1200);
+		// 	} , 1200)
+		// }
+
+		function shiningChain(div){
+			console.log(div);
+			div.style.backgroundColor = "blue";
+	
+			var branches = div.childNodes;
+			if(branches.length){
+				div.style.backgroundColor = "white";
+			}
+			if(branches[0]){
+				shiningChain(branches[0]);
+			}
+
+			if(branches[1]){
+				shiningChain(branches[1]);
+			}
+		
+		}
+
+		shiningChain(root);
+	</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+</head>
+<body>
+    <h3>污染城市列表</h3>
+    <ul id="aqi-list">
+    	
+    </ul>
+    
+    <script type="text/javascript">
+    	var aqiData = [
+			["北京", 90],
+			["上海", 50],
+			["福州", 10],
+			["广州", 50],
+			["成都", 90],
+			["西安", 100]
+		];
+
+		// sort function
+		function sort(arr){
+			// init
+			var pointer1 = null;
+			// check argument
+			if(arr instanceof Array){
+				try{
+					// body of sortation
+					for(let i = 0; i < arr.length - 1 ; i ++){
+						for(let j = arr.length - 1 ; j > 0; j--){
+							if(arr[j][1] > arr[j - 1][1]){
+								pointer1 = arr[j-1];
+								arr[j - 1] = arr[j];
+								arr[j] = pointer1;
+							}
+						}
+					}
+				}catch(error){
+					console.log(error.message)
+				}
+			}
+		}
+
+		// sort ther array
+		sort(aqiData);
+
+		for(var i = 0; i < aqiData.length; i ++){
+			console.log(aqiData[i]);
+		}
+		// dom action
+		var ul = document.getElementById("aqi-list"),
+		    frag = document.createDocumentFragment();
+		
+		for(var i = 0; i < aqiData.length; i ++){
+			//create li
+			if(aqiData[i][1] > 60){
+				var li = document.createElement("li");
+				var words = "第" + (i + 1) + "名： " + aqiData[i][0] +" , " + aqiData[i][1];
+				li.innerHTML = words;
+			}
+			//add li to frag
+			frag.appendChild(li)
+		}
+		console.log(frag);
+		//add frag to ul
+		ul.appendChild(frag);
+    </script>
+</body>
+</html>

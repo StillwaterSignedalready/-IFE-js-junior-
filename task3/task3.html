@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+</head>
+<body>
+    <h3>污染城市列表</h3>
+    <ul id="source">
+        <li>北京空气质量：<b>90</b></li>
+    	<li>上海空气质量：<b>70</b></li>
+	    <li>天津空气质量：<b>80</b></li>
+	    <li>广州空气质量：<b>50</b></li>
+	    <li>深圳空气质量：<b>40</b></li>
+	    <li>福州空气质量：<b>32</b></li>
+	    <li>成都空气质量：<b>90</b></li>
+    </ul>
+    <ul id="resort">
+    	
+    </ul>
+    <button id="sort-btn">排序</button>
+    <script type="text/javascript">
+        // method of getting data
+        // 	init var
+        var source = document.getElementById("source"),
+            resort = document.getElementById("resort"),
+            btn = document.getElementById("sort-btn");
+
+        function getData(){
+        	var lis = source.getElementsByTagName("li"),
+        		data = new Array(lis.length),
+        		city = "",
+        		num = null;
+        	
+        	for(let i = 0, len = lis.length; i < len; i++){
+        		city = lis[i].firstChild.nodeValue.slice(0, -5);
+        		num = parseInt(lis[i].getElementsByTagName("b")[0].innerHTML);
+
+        		data[i] = [];
+        		data[i].push(city);
+        		data[i].push(num);
+        	}
+
+        	return data;
+        }
+        // method of sortting
+		function sort(arr){
+			// init
+			var pointer1 = null;
+			// check argument
+			if(arr instanceof Array){
+				try{
+					// body of sortation
+					for(let i = 0; i < arr.length - 1 ; i ++){
+						for(let j = arr.length - 1 ; j > 0; j--){
+							if(arr[j][1] > arr[j - 1][1]){
+								pointer1 = arr[j-1];
+								arr[j - 1] = arr[j];
+								arr[j] = pointer1;
+							}
+						}
+					}
+				}catch(error){
+					console.log(error.message)
+				}
+			}
+		}
+        // turn data to dom node, add it to doc
+        var data = getData();
+        sort(data);
+
+        function displayData(data){
+			for(var i = 0; i < data.length; i ++){
+				console.log(data[i]);
+			}
+			// dom action
+			var frag = document.createDocumentFragment();
+			
+			for(var i = 0; i < data.length; i ++){
+				//create li
+				var li = document.createElement("li");
+				var words = "第" + (i + 1) + "名： " + data[i][0] +" , " + data[i][1];
+				li.innerHTML = words;
+				
+				//add li to frag
+				frag.appendChild(li);
+			}
+			//add frag to resort
+			resort.appendChild(frag);
+        }
+
+        btn.addEventListener("click", function(){
+        	displayData(data);
+        })
+        
+    </script>
+</body>
+</html>
